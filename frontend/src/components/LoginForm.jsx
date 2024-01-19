@@ -1,14 +1,36 @@
-//LoginForm.jsx
+// LoginForm.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSession } from '../SessionContext';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = () => {
+  const { login } = useSession();
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin(dni, password);
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ dni, password }),
+      });
+
+      if (response.ok) {
+        const { token } = await response.json();
+        login(token);
+        navigate('/');
+      } else {
+        console.error('Error de autenticación');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud de autenticación:', error);
+    }
   };
 
   return (

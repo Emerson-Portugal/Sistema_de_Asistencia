@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.db.queries import obtener_lista_jefes
+from app.db.queries_chief import obtener_lista_jefes
 
 router = APIRouter()
 

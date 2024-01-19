@@ -1,7 +1,9 @@
+# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.endpoints import login, support, asistencia
-
+from app.endpoints import login
+from app.endpoints import pre_approval
+from app.endpoints import chief
 app = FastAPI()
 
 # Configuración de CORS
@@ -21,8 +23,9 @@ app.add_middleware(
 # Montar el router
 
 app.include_router(login.router)
-app.include_router(support.router)
-app.include_router(asistencia.router)
+app.include_router(pre_approval.router)
+app.include_router(chief.router)
+
 
 if __name__ == "__main__":
     import uvicorn

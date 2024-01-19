@@ -1,5 +1,6 @@
+#login.py
 from fastapi import APIRouter, HTTPException, Body
-from app.db.queries import consultar_login
+from app.db.queries_login import consultar_login
 from pydantic import BaseModel
 
 router = APIRouter()
