@@ -6,7 +6,7 @@ import MenuComponent from './components/MenuComponent';
 import SupportForm from './components/SupportForm';
 import AcceptApplication from './components/AcceptApplication';
 import LoginForm from './components/LoginForm';
-import "./App.css";
+import './App.css';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           <Route path="/support" element={<SupportForm />} />
           <Route path="/accept" element={<AcceptApplication />} />
           <Route path="/login" element={<LoginForm />} />
-          {/* Agrega más rutas según sea necesario */}
+          {/* Add more routes as needed */}
         </Routes>
       </SessionProvider>
     </Router>

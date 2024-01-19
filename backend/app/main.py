@@ -19,7 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Montar el router
 
 app.include_router(login.router)

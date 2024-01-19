@@ -1,19 +1,18 @@
 // LoginForm.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSession } from '../SessionContext';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SessionContext } from '../SessionContext';
 
 const LoginForm = () => {
-  const { login } = useSession();
+  const navigate = useNavigate();
+  const { login } = useContext(SessionContext);
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
+    // Implement logic to send login request to the backend
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
+      const response = await fetch('http://localhost:8000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,30 +21,37 @@ const LoginForm = () => {
       });
 
       if (response.ok) {
-        const { token } = await response.json();
-        login(token);
+        const data = await response.json();
+        login(data.access_token);
         navigate('/');
       } else {
-        console.error('Error de autenticación');
+        // Handle login failure
+        console.error('Login failed');
       }
     } catch (error) {
-      console.error('Error al realizar la solicitud de autenticación:', error);
+      console.error('Error during login:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        DNI:
-        <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <button type="submit">Login</button>
-      <Link to="/register">Register</Link>
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form>
+        <label>
+          DNI:
+          <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </label>
+        <br />
+        <button type="button" onClick={handleLogin}>
+          Login
+        </button>
+      </form>
+    </div>
   );
 };
 

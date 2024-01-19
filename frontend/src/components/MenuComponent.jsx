@@ -1,4 +1,3 @@
-// MenuComponent.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSession } from '../SessionContext';
@@ -9,7 +8,7 @@ const MenuComponent = () => {
 
   const handleLogout = () => {
     logout();
-    // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
+    // Redirect the user to the login page after logging out
     navigate('/login');
   };
 
@@ -23,7 +22,10 @@ const MenuComponent = () => {
           <button onClick={handleLogout}>Cerrar sesión</button>
         </>
       ) : (
-        <Link to="/login">Iniciar sesión</Link>
+        <>
+          <Link to="/login">Iniciar Sesión</Link>
+          {/* Add more links or components for non-logged-in users if needed */}
+        </>
       )}
     </div>
   );

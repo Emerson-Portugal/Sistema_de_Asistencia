@@ -1,42 +1,32 @@
-// SessionContext.jsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// SessionContext.js
+import React, { createContext, useState, useContext } from 'react';
 
 const SessionContext = createContext();
 
-export const SessionProvider = ({ children }) => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Al cargar la aplicación, verifica si hay un token en el almacenamiento local
-    const token = localStorage.getItem('token');
-    if (token) {
-      setLoggedIn(true);
-      // Puedes hacer una solicitud al servidor para obtener más información del usuario si es necesario
-      // setUser(...);
-    }
-  }, []);
+const SessionProvider = ({ children }) => {
+  const [accessToken, setAccessToken] = useState(null);
 
   const login = (token) => {
-    setLoggedIn(true);
-    // Puedes hacer una solicitud al servidor para obtener más información del usuario si es necesario
-    // setUser(...);
-    localStorage.setItem('token', token);
+    setAccessToken(token);
   };
 
   const logout = () => {
-    setLoggedIn(false);
-    setUser(null);
-    localStorage.removeItem('token');
+    setAccessToken(null);
   };
 
   return (
-    <SessionContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <SessionContext.Provider value={{ accessToken, login, logout }}>
       {children}
     </SessionContext.Provider>
   );
 };
 
-export const useSession = () => {
-  return useContext(SessionContext);
+const useSession = () => {
+  const context = useContext(SessionContext);
+  if (!context) {
+    throw new Error('useSession must be used within a SessionProvider');
+  }
+  return context;
 };
+
+export { SessionProvider, useSession, SessionContext };
