@@ -1,6 +1,6 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { SessionProvider } from './SessionContext';
 import MenuComponent from './components/MenuComponent';
 import SupportForm from './components/SupportForm';
@@ -13,7 +13,10 @@ function App() {
     <Router>
       <SessionProvider>
         <Routes>
-          <Route path="/" element={<MenuComponent />} />
+          <Route
+            path="/"
+            element={<MenuComponent />}
+          />
           <Route path="/support" element={<SupportForm />} />
           <Route path="/accept" element={<AcceptApplication />} />
           <Route path="/login" element={<LoginForm />} />

@@ -59,7 +59,12 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 def get_current_active_user(current_user: TokenData = Depends(get_current_user)):
     # Implementa la lógica para verificar si el usuario está activo o no.
     # En este ejemplo, se asume que todos los usuarios son activos.
-    return current_user
+    if current_user.is_active:
+        print("Esta Activo")
+        return current_user
+    
+    raise HTTPException(status_code=400, detail="Usuario inactivo")
+
 
 @router.post("/login", response_model=Token)
 async def login(login_data: LoginForm = Body(...)):
