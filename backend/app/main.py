@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.endpoints import login
 from app.endpoints import pre_approval
+from app.endpoints import approval
 from app.endpoints import chief
 app = FastAPI()
 
@@ -23,6 +24,7 @@ app.add_middleware(
 
 app.include_router(login.router)
 app.include_router(pre_approval.router)
+app.include_router(approval.router)
 app.include_router(chief.router)
 
 

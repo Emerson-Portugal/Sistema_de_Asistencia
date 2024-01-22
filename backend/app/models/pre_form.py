@@ -6,3 +6,11 @@ class SolicitudAsistencia(BaseModel):
     descripcion: str
     fecha_retorno: str
     autorizacion_jefe: int
+
+
+class SolicitudAsistenciaJefe(BaseModel):
+    dni_usuario: int
+    descripcion: str
+    fecha_retorno: str
+    autorizacion_jefe: int
+    estado:str

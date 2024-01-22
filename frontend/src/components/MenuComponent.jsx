@@ -1,9 +1,10 @@
+// MenuComponent.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSession } from '../SessionContext';
 
 const MenuComponent = () => {
-  const { isLoggedIn, logout } = useSession();
+  const { accessToken, user, logout } = useSession();  // Agrega user aquí
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,16 +16,17 @@ const MenuComponent = () => {
   return (
     <div>
       <h1>Menú Principal</h1>
-      {isLoggedIn ? (
+      {accessToken ? (
         <>
           <Link to="/support">Soporte</Link>
-          <Link to="/accept">Aceptar Solicitud</Link>
+          <br/>
+          {user && user.id_cargo === 7 && <Link to="/accept">Aceptar Solicitud</Link>}
+          <br/>
           <button onClick={handleLogout}>Cerrar sesión</button>
         </>
       ) : (
         <>
           <Link to="/login">Iniciar Sesión</Link>
-          {/* Add more links or components for non-logged-in users if needed */}
         </>
       )}
     </div>

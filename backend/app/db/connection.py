@@ -4,11 +4,11 @@ def create_connection():
     # Parámetros de conexión (puedes cargarlos desde .env o proporcionarlos directamente)
     dbname = 'test_asistencia'
     user = 'postgres'
-    password = '7895'
-    #password = 'admin7895'
+    #password = '7895'
+    password = 'admin7895'
     host = 'localhost'
-    port = '5432'
-    #port = '8086'
+    #port = '5432'
+    port = '8086'
 
     try:
         conn = psycopg2.connect(

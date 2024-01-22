@@ -1,16 +1,16 @@
 // LoginForm.jsx
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SessionContext } from '../SessionContext';
+import { useSession } from '../SessionContext';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { login } = useContext(SessionContext);
+  const { login } = useSession();
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
 
+  // handleLogin function
   const handleLogin = async () => {
-    // Implement logic to send login request to the backend
     try {
       const response = await fetch('http://localhost:8000/login', {
         method: 'POST',
@@ -20,9 +20,12 @@ const LoginForm = () => {
         body: JSON.stringify({ dni, password }),
       });
 
+      console.log(response)
+
       if (response.ok) {
         const data = await response.json();
-        login(data.access_token);
+        login(data.access_token, data.user); 
+        console.log(data.access_token, data.user); 
         navigate('/');
       } else {
         // Handle login failure
@@ -32,6 +35,8 @@ const LoginForm = () => {
       console.error('Error during login:', error);
     }
   };
+
+
 
   return (
     <div>

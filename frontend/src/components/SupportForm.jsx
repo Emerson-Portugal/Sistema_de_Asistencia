@@ -1,4 +1,3 @@
-// SupportForm.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSession } from "../SessionContext";
@@ -58,13 +57,13 @@ const SupportForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`, // Asegúrate de incluir el token de autorización
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           dni_usuario: user.dni,
           descripcion,
           fecha_retorno: fechaRetorno,
-          dni_jefe: cargoJefe,
+          autorizacion_jefe: cargoJefe,
         }),
       });
 

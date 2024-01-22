@@ -1,11 +1,26 @@
-//AcceptApplication.jsx
+// AcceptApplication.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { obtenerSolicitudesPendientes, aceptarRechazarSolicitud } from "./api";
+import { Link, useNavigate } from "react-router-dom";
+import { useSession } from "../SessionContext";
 
+const AcceptApplication = () => {
+  const { user, isLoggedIn } = useSession();
+  const [data, setData] = useState([]); // Cambié el nombre de la variable a `data`
+  const navigate = useNavigate();
 
-const AcceptApplication = ({ onReturnToMain }) => {
-  const [formularios, setFormularios] = useState([]);
+  const handleReturnToMain = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    console.log("User:", user);
+    if (!isLoggedIn) {
+      console.error(
+        "El usuario no está autenticado. Redirigiendo a la página de inicio de sesión."
+      );
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate, user]);
 
   useEffect(() => {
     obtenerFormulariosPendientes();
@@ -13,27 +28,20 @@ const AcceptApplication = ({ onReturnToMain }) => {
 
   const obtenerFormulariosPendientes = async () => {
     try {
-      const formulariosPendientes = await obtenerSolicitudesPendientes();
-      console.log("Respuesta de obtenerSolicitudesPendientes:", formulariosPendientes);
-      setFormularios((formulariosPendientes && formulariosPendientes.solicitudes_pendientes) || []);
+      const response = await fetch("http://127.0.0.1:8000/pre-listado");
+      if (response.ok) {
+        const formulario = await response.json();
+        setData(formulario);
+      } else {
+        console.error("Error al obtener la lista de jefes");
+      }
     } catch (error) {
-      console.error("Error al obtener las solicitudes pendientes:", error);
+      console.error("Error al realizar la solicitud:", error);
     }
   };
-  
 
-  const handleReturnToMain = () => {
-    onReturnToMain();
-  };
-
-  const handleAceptarRechazar = async (idSolicitud, aceptar) => {
-    try {
-      await aceptarRechazarSolicitud(idSolicitud, aceptar);
-      obtenerFormulariosPendientes();
-    } catch (error) {
-      console.error("Error al aceptar/rechazar la solicitud:", error);
-    }
-  };
+  // Filtrar las solicitudes que coinciden con el DNI del jefe
+  const solicitudesDelJefe = data.filter((formulario) => formulario.autorizacion_jefe === user.dni);
 
   return (
     <>
@@ -44,15 +52,14 @@ const AcceptApplication = ({ onReturnToMain }) => {
       <h1> Enlace a los Permisos </h1>
 
       <ul>
-        {formularios.map((formulario) => (
-          <li key={formulario.id}>
-            <p>ID: {formulario.id}</p>
+        {solicitudesDelJefe.map((formulario, index) => (
+          <li key={index}>
+            <p>dni_usuario: {formulario.dni_usuario}</p>
             <p>Descripción: {formulario.descripcion}</p>
+            <p>Fecha de creacion: {formulario.fecha_creada}</p>
             <p>Fecha de retorno: {formulario.fecha_retorno}</p>
             <p>Autorización Jefe: {formulario.autorizacion_jefe}</p>
-            <p>Autorización: {formulario.autorizacion}</p>
-            <p>Respuesta Jefe: {formulario.respuesta_jefe}</p>
-
+            <p>Estado: {formulario.estado}</p>
             <button onClick={() => handleAceptarRechazar(formulario.id, true)}>Aceptar</button>
             <button onClick={() => handleAceptarRechazar(formulario.id, false)}>Rechazar</button>
           </li>
