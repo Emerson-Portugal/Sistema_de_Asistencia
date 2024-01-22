@@ -9,6 +9,7 @@ class SolicitudAsistencia(BaseModel):
 
 
 class SolicitudAsistenciaJefe(BaseModel):
+    id: int
     dni_usuario: int
     descripcion: str
     fecha_retorno: str

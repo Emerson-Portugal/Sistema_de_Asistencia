@@ -22,6 +22,8 @@ const MenuComponent = () => {
           <br/>
           {user && user.id_cargo === 7 && <Link to="/accept">Aceptar Solicitud</Link>}
           <br/>
+          {<Link to="/list">Lista de Solicitudes</Link>}
+          <br/>
           <button onClick={handleLogout}>Cerrar sesión</button>
         </>
       ) : (

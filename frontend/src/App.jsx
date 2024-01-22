@@ -6,6 +6,7 @@ import MenuComponent from './components/MenuComponent';
 import SupportForm from './components/SupportForm';
 import AcceptApplication from './components/AcceptApplication';
 import LoginForm from './components/LoginForm';
+import ListApproval from './components/ListApproval';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           />
           <Route path="/support" element={<SupportForm />} />
           <Route path="/accept" element={<AcceptApplication />} />
+          <Route path="/list" element={<ListApproval />} />
           <Route path="/login" element={<LoginForm />} />
           {/* Add more routes as needed */}
         </Routes>
