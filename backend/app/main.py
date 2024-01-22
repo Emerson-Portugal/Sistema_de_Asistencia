@@ -11,6 +11,7 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",  # Ajusta esto con el puerto correcto de tu aplicación React
     "http://localhost:3000",  # Puedes añadir más orígenes según tus necesidades
+    "http://192.168.2.135:3000", 
 ]
 
 app.add_middleware(

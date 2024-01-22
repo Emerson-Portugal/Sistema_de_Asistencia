@@ -28,7 +28,7 @@ const AcceptApplication = () => {
 
   const obtenerFormulariosPendientes = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/pre-listado");
+      const response = await fetch("http://192.168.2.135:8000/pre-listado");
       if (response.ok) {
         const formularios = await response.json();
         console.log(formularios);
@@ -50,7 +50,7 @@ const AcceptApplication = () => {
 
   const handleAceptarRechazar = async (id, dni, descripcion, fecha_retorno, autorizacion_jefe, aceptar) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/aprobacion`, {
+      const response = await fetch(`http://192.168.2.135:8000/aprobacion`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

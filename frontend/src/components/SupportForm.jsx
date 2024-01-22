@@ -27,7 +27,7 @@ const SupportForm = () => {
 
   const obtenerJefes = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/jefes");
+      const response = await fetch("http://192.168.2.135:8000/jefes");
       if (response.ok) {
         const data = await response.json();
         setJefes(data);
@@ -53,7 +53,7 @@ const SupportForm = () => {
         dni_jefe: cargoJefe,
       });
 
-      const response = await fetch("http://127.0.0.1:8000/pre-aprobacion", {
+      const response = await fetch("http://192.168.2.135:8000/pre-aprobacion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

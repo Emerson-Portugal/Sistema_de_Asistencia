@@ -28,7 +28,7 @@ const ListApproval = () => {
 
   const obtenerFormulariosPendientes = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/pre-listado");
+      const response = await fetch("http://192.168.2.135:8000/pre-listado");
       if (response.ok) {
         const formularios = await response.json();
         
