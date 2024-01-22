@@ -30,8 +30,14 @@ const AcceptApplication = () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/pre-listado");
       if (response.ok) {
-        const formulario = await response.json();
-        setData(formulario);
+        const formularios = await response.json();
+        
+        // Filtrar las solicitudes que coinciden con el DNI del jefe y tienen estado pendiente
+        const solicitudesPendientesDelJefe = formularios.filter(
+          (formulario) => formulario.autorizacion_jefe === user.dni && formulario.estado === 'pendiente'
+        );
+
+        setData(solicitudesPendientesDelJefe);
       } else {
         console.error("Error al obtener la lista de jefes");
       }
@@ -39,9 +45,6 @@ const AcceptApplication = () => {
       console.error("Error al realizar la solicitud:", error);
     }
   };
-
-  // Filtrar las solicitudes que coinciden con el DNI del jefe
-  const solicitudesDelJefe = data.filter((formulario) => formulario.autorizacion_jefe === user.dni);
 
   return (
     <>
@@ -52,7 +55,7 @@ const AcceptApplication = () => {
       <h1> Enlace a los Permisos </h1>
 
       <ul>
-        {solicitudesDelJefe.map((formulario, index) => (
+        {data.map((formulario, index) => (
           <li key={index}>
             <p>dni_usuario: {formulario.dni_usuario}</p>
             <p>Descripción: {formulario.descripcion}</p>
